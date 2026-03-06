@@ -7,6 +7,7 @@ export default function SciencePage() {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
   const [selectedWork, setSelectedWork] = useState<number | null>(null);
+  const [infoIndex, setInfoIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   
@@ -99,7 +100,14 @@ export default function SciencePage() {
               <div 
                 key={num} 
                 className={`aspect-[4/3] relative flex items-center justify-center cursor-pointer transition-all duration-300 ${selectedWork === num ? 'scale-105 ring-2 ring-[#BE7D12] rounded-lg' : 'hover:scale-105'}`}
-                onClick={() => setSelectedWork(selectedWork === num ? null : num)}
+                onClick={() => {
+                  if (selectedWork === num) {
+                    setSelectedWork(null);
+                  } else {
+                    setSelectedWork(num);
+                    setInfoIndex(0);
+                  }
+                }}
               >
                  <img 
                    src={`/frames/work${num}.png`}
@@ -115,11 +123,33 @@ export default function SciencePage() {
             className={`transition-all duration-500 overflow-hidden ${selectedWork ? 'w-[35%] opacity-100' : 'w-0 opacity-0'}`}
           >
              {selectedWork && (
-               <img 
-                 src={`/frames/infor${selectedWork}.png`}
-                 alt={`Info ${selectedWork}`}
-                 className="w-full h-auto object-contain animate-fadeIn"
-               />
+               <div className="relative w-full">
+                 <img 
+                   src={[`/frames/infor${selectedWork}.png`, `/frames/infor${selectedWork}.2.png`][infoIndex]}
+                   alt={`Info ${selectedWork}`}
+                   className="w-full h-auto object-contain animate-fadeIn"
+                 />
+                 <div className="absolute inset-y-0 left-0 flex items-center">
+                   <button
+                     className="p-2 text-white/70 hover:text-white transition-colors"
+                     onClick={() => setInfoIndex(infoIndex === 0 ? 1 : 0)}
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                       <path fillRule="evenodd" d="M15.78 19.28a.75.75 0 0 1-1.06 0l-6.25-6.25a.75.75 0 0 1 0-1.06l6.25-6.25a.75.75 0 1 1 1.06 1.06L10.06 12l5.72 5.72a.75.75 0 0 1 0 1.06Z" clipRule="evenodd" />
+                     </svg>
+                   </button>
+                 </div>
+                 <div className="absolute inset-y-0 right-0 flex items-center">
+                   <button
+                     className="p-2 text-white/70 hover:text-white transition-colors"
+                     onClick={() => setInfoIndex(infoIndex === 1 ? 0 : 1)}
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                       <path fillRule="evenodd" d="M8.22 4.72a.75.75 0 0 1 1.06 0l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 1 1-1.06-1.06L13.94 12 8.22 6.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                     </svg>
+                   </button>
+                 </div>
+               </div>
              )}
           </div>
         </div>

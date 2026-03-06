@@ -45,8 +45,52 @@ export default function AncientPage() {
   const router = useRouter();
   const [selectedDynasty, setSelectedDynasty] = useState<string | null>(null);
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
+  const [hoveredDynasty, setHoveredDynasty] = useState<string | null>(null);
 
   const dynasties = ['先秦', '汉代', '魏晋南北朝', '隋唐', '宋元', '明', '清', '近现代'];
+
+  const dynastyDetails: { [key: string]: { timeCN: string; timeEN: string; description: string } } = {
+    '先秦': {
+      timeCN: '远古～公元前 221 年',
+      timeEN: 'ancient times to 221 BCE',
+      description: '在探索与过渡中奠基，多元形态并存博弈，逐步形成更有序的共生结构，为后续稳定协作打下基础。'
+    },
+    '汉代': {
+      timeCN: '公元前 202 年 — 公元 220 年',
+      timeEN: '202 BCE – 220 CE',
+      description: '大一统格局下形成稳定身份认同，核心规则确立，用跨区域联结来拓展生存边界，群体归属感逐渐清晰。'
+    },
+    '魏晋南北朝': {
+      timeCN: '公元 220 年 —589 年',
+      timeEN: '220 – 589 CE',
+      description: '动荡与变迁中不断适应，权力与边界频繁更迭，新的生存逻辑与群体形态涌现，在融合中寻找存续之道。'
+    },
+    '隋唐': {
+      timeCN: '公元 581 年 —907 年',
+      timeEN: '581 – 907 CE',
+      description: '开放包容的鼎盛阶段，多元协作机制激活，广泛互动与交流催生丰富形态，在共生中迸发活力。'
+    },
+    '宋元': {
+      timeCN: '公元 960 年 —1368 年',
+      timeEN: '960 – 1368 CE',
+      description: '精细化发展与高效协作，技术与制度革新重塑生存方式，大一统格局巩固更广阔的共生网络。'
+    },
+    '明': {
+      timeCN: '公元 1368 年 —1644 年',
+      timeEN: '1368 —1644 CE',
+      description: '大一统中央集权高度强化，加强皇权与边疆治理，商品经济繁荣，市民文化兴起，对外交流与海禁政策并存。'
+    },
+    '清': {
+      timeCN: '公元1644 年 — 1912 年',
+      timeEN: '1644 —1912 CE',
+      description: '统一多民族国家最终定型，现代中国版图基本奠定，农耕文明达到顶峰，后期闭关锁国，遭受列强入侵，社会开始近代转型。'
+    },
+    '近现代': {
+      timeCN: '公元1840 年 — 1949 年',
+      timeEN: '1840 —1949 CE',
+      description: '以鸦片战争为开端，民族危机不断加深，救亡图存成为时代主题，历经旧民主主义革命与新民主主义革命，最终实现民族独立和人民解放。'
+    }
+  };
 
   // Group artifacts by material
   const groupedArtifacts = useMemo(() => {
@@ -157,7 +201,7 @@ export default function AncientPage() {
         {/* 下方主体内容区域：左侧 + 右侧 */}
         <div className="flex-grow flex gap-6 overflow-hidden min-h-0 relative z-50">
           {/* 左侧区域：包含文物展示区和时间轴 */}
-          <div className="flex-1 flex flex-col w-3/4 min-h-0">
+          <div className="flex-1 flex flex-col w-3/4 min-h-0 relative z-50">
             {/* 左上方：主体矩形（文物展示区） */}
             <div className="flex-grow relative flex flex-col gap-4 overflow-hidden pb-4">
                <div className="flex-1 flex gap-1 h-full">
@@ -255,9 +299,29 @@ export default function AncientPage() {
                  {dynasties.map((dynasty, index) => (
                    <div 
                     key={index} 
-                    className="flex flex-col items-center gap-3 cursor-pointer group"
+                    className="flex flex-col items-center gap-3 cursor-pointer group relative"
                     onClick={() => setSelectedDynasty(dynasty)}
+                    onMouseEnter={() => setHoveredDynasty(dynasty)}
+                    onMouseLeave={() => setHoveredDynasty(null)}
                    >
+                     {/* Tooltip */}
+                     {hoveredDynasty === dynasty && dynastyDetails[dynasty] && (
+                       <div className="absolute bottom-full left-0 ml-0 mb-4 w-72 bg-[#00100A]/95 border border-[#34817A] p-4 rounded-lg shadow-2xl z-[60] pointer-events-none animate-fadeIn backdrop-blur-md">
+                         <div className="flex items-baseline justify-between mb-2 border-b border-[#34817A]/30 pb-2">
+                           <h4 className="text-[#FF9000] font-bold text-lg">{dynasty}</h4>
+                         </div>
+                         <div className="flex flex-col gap-1 mb-3">
+                           <div className="text-xs text-[#34817A] font-bold tracking-wide">{dynastyDetails[dynasty].timeCN}</div>
+                           <div className="text-[10px] text-[#ededed]/50 italic font-serif tracking-wider">{dynastyDetails[dynasty].timeEN}</div>
+                         </div>
+                         <div className="text-xs text-[#ededed]/90 leading-relaxed text-justify border-t border-[#34817A]/10 pt-2">
+                           {dynastyDetails[dynasty].description}
+                         </div>
+                         {/* Arrow */}
+                         <div className="absolute -bottom-2 left-8 w-4 h-4 bg-[#00100A] border-r border-b border-[#34817A] rotate-45 transform"></div>
+                       </div>
+                     )}
+
                      {/* 图片容器 */}
                      <div className="relative w-20 h-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                           <img 
@@ -277,7 +341,7 @@ export default function AncientPage() {
         </div>
 
         {/* 右侧区域：长的窄的矩形（解释区） */}
-          <div className="w-1/4 relative flex flex-col gap-4 overflow-y-auto min-h-0 z-50">
+          <div className="w-1/4 relative flex flex-col gap-4 overflow-y-auto min-h-0 z-40">
              {/* 上方：气泡框区 */}
              <div className="flex-grow flex flex-col pb-4 min-h-0">
                <div className="w-full bg-black border border-[#34817A] rounded-lg p-4 relative flex flex-col gap-3 mt-auto">
