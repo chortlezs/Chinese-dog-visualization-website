@@ -47,9 +47,6 @@ export default function AncientPage() {
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [hoveredDynasty, setHoveredDynasty] = useState<string | null>(null);
 
-  const isProd = process.env.NODE_ENV === 'production';
-  const basePath = isProd ? '/Chinese-dog-visualization-website' : '';
-
   const dynasties = ['先秦', '汉代', '魏晋南北朝', '隋唐', '宋元', '明', '清', '近现代'];
 
   const dynastyDetails: { [key: string]: { timeCN: string; timeEN: string; description: string } } = {
@@ -121,44 +118,43 @@ export default function AncientPage() {
   };
 
   const dynastyImages: { [key: string]: string } = {
-    '先秦': `${basePath}/frames/datamap1.png`,
-    '汉代': `${basePath}/frames/datamap2.png`,
-    '魏晋南北朝': `${basePath}/frames/datamap3.png`,
-    '隋唐': `${basePath}/frames/datamap4.png`,
-    '宋元': `${basePath}/frames/datamap5.png`,
-    '明': `${basePath}/frames/datamap6.png`,
-    '清': `${basePath}/frames/datamap7.png`,
-    '近现代': `${basePath}/frames/datamap8.png`
+    '先秦': '/frames/datamap1.png',
+    '汉代': '/frames/datamap2.png',
+    '魏晋南北朝': '/frames/datamap3.png',
+    '隋唐': '/frames/datamap4.png',
+    '宋元': '/frames/datamap5.png',
+    '明': '/frames/datamap6.png',
+    '清': '/frames/datamap7.png',
+    '近现代': '/frames/datamap8.png'
   };
 
   const dynastyArtifacts: { [key: string]: string } = {
-    '先秦': `${basePath}/frames/ancient1.png`,
-    '汉代': `${basePath}/frames/ancient2.png`,
-    '魏晋南北朝': `${basePath}/frames/ancient3.png`,
-    '隋唐': `${basePath}/frames/ancient4.png`,
-    '宋元': `${basePath}/frames/ancient5.png`,
-    '明': `${basePath}/frames/ancient6.png`,
-    '清': `${basePath}/frames/ancient7.png`,
-    '近现代': `${basePath}/frames/ancient8.png`
+    '先秦': '/frames/ancient1.png',
+    '汉代': '/frames/ancient2.png',
+    '魏晋南北朝': '/frames/ancient3.png',
+    '隋唐': '/frames/ancient4.png',
+    '宋元': '/frames/ancient5.png',
+    '明': '/frames/ancient6.png',
+    '清': '/frames/ancient7.png',
+    '近现代': '/frames/ancient8.png'
   };
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#00100A' }}>
       {/* side 图片始终固定在画面最上方 */}
       <div 
-        className="fixed top-0 left-0 w-full pointer-events-none"
+        className="fixed top-0 left-0 w-full h-full pointer-events-none"
         style={{
           zIndex: 10,
         }}
       >
         <img
-          src={`${basePath}/frames/side.png`}
+          src="/frames/side.png"
           alt="Side"
-          className="w-full h-auto"
+          className="w-full h-full"
           style={{
             display: 'block',
-            width: '100%',
-            height: 'auto',
+            objectFit: 'fill', // 强制拉伸填满
           }}
           draggable={false}
         />
@@ -172,7 +168,7 @@ export default function AncientPage() {
         }}
       >
         <img
-          src={`${basePath}/frames/top.png`}
+          src="/frames/top.png"
           alt="Top Decoration"
           className="w-full h-auto"
           style={{
@@ -184,13 +180,13 @@ export default function AncientPage() {
         />
       </div>
 
-      <div className="container mx-auto px-14 pt-20 h-screen flex flex-col gap-4 pb-6 relative z-[2] box-border">
+      <div className="container mx-auto px-2 pt-20 h-screen flex flex-col gap-4 pb-6 relative z-[2] box-border">
         
         {/* 上方区域：标题 */}
         <div className="flex-none h-24 flex items-center justify-between relative">
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-full w-2/3 flex justify-center items-center">
             <img 
-              src={`${basePath}/frames/subtitle4.png`}
+              src="/frames/subtitle4.png" 
               alt="中国古代犬文化遗存" 
               className="h-full w-auto object-contain scale-125"
             />
@@ -202,9 +198,9 @@ export default function AncientPage() {
         </div>
 
         {/* 下方主体内容区域：左侧 + 右侧 */}
-        <div className="flex-grow flex gap-6 overflow-hidden min-h-0 relative z-50">
+        <div className="flex-grow flex gap-2 overflow-hidden min-h-0 relative z-50">
           {/* 左侧区域：包含文物展示区和时间轴 */}
-          <div className="flex-1 flex flex-col w-3/4 min-h-0 relative z-50">
+          <div className="flex-1 flex flex-col w-5/6 min-h-0 relative z-50">
             {/* 左上方：主体矩形（文物展示区） */}
             <div className="flex-grow relative flex flex-col gap-4 overflow-hidden pb-4">
                <div className="flex-1 flex gap-1 h-full">
@@ -328,7 +324,7 @@ export default function AncientPage() {
                      {/* 图片容器 */}
                      <div className="relative w-20 h-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                           <img 
-                            src={selectedDynasty === dynasty ? `${basePath}/frames/selected.png` : `${basePath}/frames/unselected.png`}
+                            src={selectedDynasty === dynasty ? "/frames/selected.png" : "/frames/unselected.png"}
                             alt={dynasty}
                             className="w-full h-full object-contain"
                           />
@@ -344,7 +340,7 @@ export default function AncientPage() {
         </div>
 
         {/* 右侧区域：长的窄的矩形（解释区） */}
-          <div className="w-1/4 relative flex flex-col gap-4 overflow-y-auto min-h-0 z-40">
+          <div className="w-1/6 relative flex flex-col gap-4 overflow-y-auto min-h-0 z-40">
              {/* 上方：气泡框区 */}
              <div className="flex-grow flex flex-col pb-4 min-h-0">
                <div className="w-full bg-black border border-[#34817A] rounded-lg p-4 relative flex flex-col gap-3 mt-auto">
@@ -376,7 +372,7 @@ export default function AncientPage() {
              {/* 下方：照片区 */}
              <div className="w-full shrink-0">
                <img 
-                 src={`${basePath}/frames/dogman.png`}
+                 src="/frames/dogman.png" 
                  alt="Dogman" 
                  className="w-full h-auto object-contain rounded-lg"
                />

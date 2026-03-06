@@ -25,14 +25,14 @@ export default function ProtectionPage() {
       
       {/* Side Decoration */}
       <div 
-        className="absolute top-0 left-0 w-full pointer-events-none"
+        className="absolute top-0 left-0 w-full h-full pointer-events-none"
         style={{ zIndex: 10 }}
       >
         <img
           src="/frames/side.png"
           alt="Side"
-          className="w-full h-auto"
-          style={{ display: 'block', width: '100%', height: 'auto' }}
+          className="w-full h-full"
+          style={{ display: 'block', objectFit: 'fill' }}
           draggable={false}
         />
       </div>

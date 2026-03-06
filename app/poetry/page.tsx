@@ -637,7 +637,7 @@ export default function PoetryPage() {
 
       {/* side 图片始终固定在画面最上方 */}
       <div 
-        className="fixed top-0 left-0 w-full pointer-events-none"
+        className="fixed top-0 left-0 w-full h-full pointer-events-none"
         style={{
           zIndex: 10,
         }}
@@ -645,11 +645,10 @@ export default function PoetryPage() {
         <img
           src="/frames/side.png"
           alt="Side"
-          className="w-full h-auto"
+          className="w-full h-full"
           style={{
             display: 'block',
-            width: '100%',
-            height: 'auto',
+            objectFit: 'fill', // 强制拉伸填满
           }}
           draggable={false}
         />

@@ -3,9 +3,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-const isProd = process.env.NODE_ENV === 'production';
-const basePath = isProd ? '/Chinese-dog-visualization-website' : '';
-
 const FRAME_COUNT = 9;
 const FRAME_INTERVAL = 250//0.25秒间隔
 
@@ -240,7 +237,7 @@ export default function ScrollFrames() {
         }}
       >
         <img
-          src={`${basePath}/frames/title.GIF`}
+          src="/frames/title.GIF"
           alt="Title"
           className="w-full h-full object-cover"
           draggable={false}
@@ -249,19 +246,18 @@ export default function ScrollFrames() {
       
       {/* side 图片始终固定在画面最上方 */}
       <div 
-        className="fixed top-0 left-0 w-full pointer-events-none"
+        className="fixed top-0 left-0 w-full h-full pointer-events-none"
         style={{
           zIndex: 10,
         }}
       >
         <img
-          src={`${basePath}/frames/side.png`}
+          src="/frames/side.png"
           alt="Side"
-          className="w-full h-auto"
+          className="w-full h-full"
           style={{
             display: 'block',
-            width: '100%',
-            height: 'auto',
+            objectFit: 'fill', // 强制拉伸填满
           }}
           draggable={false}
         />
@@ -277,10 +273,11 @@ export default function ScrollFrames() {
         {/* 图片始终显示 */}
         <img
           key={currentFrame}
-          src={`${basePath}/frames/curtain${currentFrame}.png`}
+          src={`/frames/curtain${currentFrame}.png`}
           alt={`Frame ${currentFrame}`}
-          className="w-full h-full object-contain"
+          className="w-full h-full"
           style={{ 
+            objectFit: 'fill', // 强制拉伸填满
             transition: 'none !important',
             animation: 'none !important',
             willChange: 'auto',
