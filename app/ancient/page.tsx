@@ -47,6 +47,9 @@ export default function AncientPage() {
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [hoveredDynasty, setHoveredDynasty] = useState<string | null>(null);
 
+  const isProd = process.env.NODE_ENV === 'production';
+  const basePath = isProd ? '/Chinese-dog-visualization-website' : '';
+
   const dynasties = ['先秦', '汉代', '魏晋南北朝', '隋唐', '宋元', '明', '清', '近现代'];
 
   const dynastyDetails: { [key: string]: { timeCN: string; timeEN: string; description: string } } = {
@@ -118,25 +121,25 @@ export default function AncientPage() {
   };
 
   const dynastyImages: { [key: string]: string } = {
-    '先秦': '/frames/datamap1.png',
-    '汉代': '/frames/datamap2.png',
-    '魏晋南北朝': '/frames/datamap3.png',
-    '隋唐': '/frames/datamap4.png',
-    '宋元': '/frames/datamap5.png',
-    '明': '/frames/datamap6.png',
-    '清': '/frames/datamap7.png',
-    '近现代': '/frames/datamap8.png'
+    '先秦': `${basePath}/frames/datamap1.png`,
+    '汉代': `${basePath}/frames/datamap2.png`,
+    '魏晋南北朝': `${basePath}/frames/datamap3.png`,
+    '隋唐': `${basePath}/frames/datamap4.png`,
+    '宋元': `${basePath}/frames/datamap5.png`,
+    '明': `${basePath}/frames/datamap6.png`,
+    '清': `${basePath}/frames/datamap7.png`,
+    '近现代': `${basePath}/frames/datamap8.png`
   };
 
   const dynastyArtifacts: { [key: string]: string } = {
-    '先秦': '/frames/ancient1.png',
-    '汉代': '/frames/ancient2.png',
-    '魏晋南北朝': '/frames/ancient3.png',
-    '隋唐': '/frames/ancient4.png',
-    '宋元': '/frames/ancient5.png',
-    '明': '/frames/ancient6.png',
-    '清': '/frames/ancient7.png',
-    '近现代': '/frames/ancient8.png'
+    '先秦': `${basePath}/frames/ancient1.png`,
+    '汉代': `${basePath}/frames/ancient2.png`,
+    '魏晋南北朝': `${basePath}/frames/ancient3.png`,
+    '隋唐': `${basePath}/frames/ancient4.png`,
+    '宋元': `${basePath}/frames/ancient5.png`,
+    '明': `${basePath}/frames/ancient6.png`,
+    '清': `${basePath}/frames/ancient7.png`,
+    '近现代': `${basePath}/frames/ancient8.png`
   };
 
   return (
@@ -149,7 +152,7 @@ export default function AncientPage() {
         }}
       >
         <img
-          src="/frames/side.png"
+          src={`${basePath}/frames/side.png`}
           alt="Side"
           className="w-full h-auto"
           style={{
@@ -169,7 +172,7 @@ export default function AncientPage() {
         }}
       >
         <img
-          src="/frames/top.png"
+          src={`${basePath}/frames/top.png`}
           alt="Top Decoration"
           className="w-full h-auto"
           style={{
@@ -187,7 +190,7 @@ export default function AncientPage() {
         <div className="flex-none h-24 flex items-center justify-between relative">
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-full w-2/3 flex justify-center items-center">
             <img 
-              src="/frames/subtitle4.png" 
+              src={`${basePath}/frames/subtitle4.png`}
               alt="中国古代犬文化遗存" 
               className="h-full w-auto object-contain scale-125"
             />
@@ -325,7 +328,7 @@ export default function AncientPage() {
                      {/* 图片容器 */}
                      <div className="relative w-20 h-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                           <img 
-                            src={selectedDynasty === dynasty ? "/frames/selected.png" : "/frames/unselected.png"}
+                            src={selectedDynasty === dynasty ? `${basePath}/frames/selected.png` : `${basePath}/frames/unselected.png`}
                             alt={dynasty}
                             className="w-full h-full object-contain"
                           />
@@ -373,7 +376,7 @@ export default function AncientPage() {
              {/* 下方：照片区 */}
              <div className="w-full shrink-0">
                <img 
-                 src="/frames/dogman.png" 
+                 src={`${basePath}/frames/dogman.png`}
                  alt="Dogman" 
                  className="w-full h-auto object-contain rounded-lg"
                />

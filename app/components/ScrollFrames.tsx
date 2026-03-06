@@ -3,6 +3,9 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
+const isProd = process.env.NODE_ENV === 'production';
+const basePath = isProd ? '/Chinese-dog-visualization-website' : '';
+
 const FRAME_COUNT = 9;
 const FRAME_INTERVAL = 250//0.25秒间隔
 
@@ -237,7 +240,7 @@ export default function ScrollFrames() {
         }}
       >
         <img
-          src="/frames/title.GIF"
+          src={`${basePath}/frames/title.GIF`}
           alt="Title"
           className="w-full h-full object-cover"
           draggable={false}
@@ -252,7 +255,7 @@ export default function ScrollFrames() {
         }}
       >
         <img
-          src="/frames/side.png"
+          src={`${basePath}/frames/side.png`}
           alt="Side"
           className="w-full h-auto"
           style={{
@@ -274,7 +277,7 @@ export default function ScrollFrames() {
         {/* 图片始终显示 */}
         <img
           key={currentFrame}
-          src={`/frames/curtain${currentFrame}.png`}
+          src={`${basePath}/frames/curtain${currentFrame}.png`}
           alt={`Frame ${currentFrame}`}
           className="w-full h-full object-contain"
           style={{ 
